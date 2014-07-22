@@ -97,7 +97,7 @@
             $scope.property.viewPath = umbPropEditorHelper.getViewPath(dataType.view);
 
             // Get the current properties datatype
-            vortoResources.getDataTypeByAlias(editorState.current.contentTypeAlias, $scope.model.alias).then(function (dataType2) {
+            vortoResources.getDataTypeByAlias(editorState.current.contentTypeAlias, $scope.model.alias, editorState.current.id).then(function (dataType2) {
 
                 $scope.model.value.dtdguid = dataType2.guid;
 
@@ -105,7 +105,7 @@
                 vortoResources.getLanguages(editorState.current.id, editorState.current.parentId, dataType2.guid)
                     .then(function (languages) {
                         $scope.languages = languages;
-                        $scope.currentLanguage = $scope.activeLanguage = _.find(languages, function(itm) {
+                        $scope.currentLanguage = $scope.activeLanguage = _.find(languages, function (itm) {
                             return itm.isDefault;
                         });
                     });
@@ -205,9 +205,11 @@ angular.module('umbraco.resources').factory('Our.Umbraco.Resources.Vorto.vortoRe
                     'Failed to retrieve datatype'
                 );
             },
-            getDataTypeByAlias: function (contentTypeAlias, propertyAlias) {
+            getDataTypeByAlias: function (contentTypeAlias, propertyAlias, id) {
+
                 return umbRequestHelper.resourcePromise(
-                    $http.get("/umbraco/backoffice/VortoApi/VortoApi/GetDataTypeByAlias?contentTypeAlias=" + contentTypeAlias + "&propertyAlias=" + propertyAlias),
+
+                    $http.get("/umbraco/backoffice/VortoApi/VortoApi/GetDataTypeByAlias?contentTypeAlias=" + contentTypeAlias + "&propertyAlias=" + propertyAlias + "&id=" + id),
                     'Failed to retrieve datatype'
                 );
             },
